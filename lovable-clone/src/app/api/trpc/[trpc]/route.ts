@@ -1,5 +1,5 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { createTRPCContext } from "@trpc/tanstack-react-query";
+import { createTRPCContext } from "@/trpc/init";
 import { appRouter } from "@/trpc/routers/_app";
 
 const handler = (req: Request) => 
@@ -11,3 +11,4 @@ const handler = (req: Request) =>
   });
 
   export { handler as GET, handler as POST };
+  
