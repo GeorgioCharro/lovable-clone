@@ -11,7 +11,7 @@
 # const sandbox = await Sandbox.create('lovable-clone-nextjs-3')
 
 team_id = "29e5854e-2fca-41bf-9c84-72cfd4120db1"
-start_cmd = "C:/Program Files/Git/compile_page.sh"
+start_cmd = "/compile_page.sh"
 dockerfile = "e2b.Dockerfile"
 template_name = "lovable-clone-nextjs-3"
 template_id = "u7kddvmyshv0zpc7hp6n"
