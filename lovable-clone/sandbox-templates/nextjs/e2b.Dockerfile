@@ -3,8 +3,8 @@ FROM node:21-slim
 # Install system dependencies
 RUN apt-get update && apt-get install -y curl rsync && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable corepack and activate latest pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Enable corepack and activate specific pnpm version
+RUN corepack enable && corepack prepare pnpm@8.11.0 --activate
 
 # Copy script and make it executable
 COPY compile_page.sh /compile_page.sh
@@ -25,3 +25,6 @@ RUN pnpm exec shadcn-ui add --all --yes
 
 # Move everything to /home/user and clean up
 RUN rsync -a /home/user/nextjs-app/ /home/user/ && rm -rf /home/user/nextjs-app
+
+# Set working directory to the final location
+WORKDIR /home/user
