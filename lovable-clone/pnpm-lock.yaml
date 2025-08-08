@@ -55,7 +55,7 @@ importers:
         version: 0.4.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       openai:
         specifier: ^5.11.0
-        version: 5.11.0(zod@4.0.14)
+        version: 5.11.0(zod@3.25.76)
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -75,8 +75,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       zod:
-        specifier: ^4.0.14
-        version: 4.0.14
+        specifier: 3.25.76
+        version: 3.25.76
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -3487,9 +3487,6 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.0.14:
-    resolution: {integrity: sha512-nGFJTnJN6cM2v9kXL+SOBq3AtjQby3Mv5ySGFof5UGRHrRioSJ5iG680cYNjE/yWk671nROcpPj4hAS8nyLhSw==}
-
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -6511,9 +6508,9 @@ snapshots:
     dependencies:
       wrappy: 1.0.2
 
-  openai@5.11.0(zod@4.0.14):
+  openai@5.11.0(zod@3.25.76):
     optionalDependencies:
-      zod: 4.0.14
+      zod: 3.25.76
 
   openapi-fetch@0.9.8:
     dependencies:
@@ -7331,5 +7328,3 @@ snapshots:
   zod@3.22.5: {}
 
   zod@3.25.76: {}
-
-  zod@4.0.14: {}
