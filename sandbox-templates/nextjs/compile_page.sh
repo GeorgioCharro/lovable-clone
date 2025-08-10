@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Change to app directory
 cd /home/user || exit 1
@@ -10,7 +11,7 @@ SERVER_PID=$!
 # Wait until the server is responsive
 echo "Waiting for Next.js dev server to start on port 3000..."
 for _ in {1..600}; do
-  if curl -sSf http://localhost:3000 > /dev/null; then
+  if curl -sSf http://localhost:3000/ > /dev/null; then
     echo "✅ Server started at http://0.0.0.0:3000"
     wait $SERVER_PID
     exit 0
