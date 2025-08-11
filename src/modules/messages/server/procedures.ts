@@ -3,15 +3,27 @@ import prisma from "@/lib/db";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { z} from "zod";
 export const messagesRouter = createTRPCRouter({
- create: baseProcedure
- .input(
-    z.object({
-        value: z.string().min(1, {message: "Message cannot be empty"}),
+    getMany: baseProcedure
+    .query( async () =>{
+        const messages = await prisma.message.findMany({
+            orderBy:{
+                updatedAt: "asc"
+            },
+            include: {
+                fragment: true,
+            }
+        });
+        return messages;
+    }),
+    create: baseProcedure
+    .input(
+        z.object({
+            value: z.string().min(1, {message: "Message cannot be empty"}),
 
 }),
  )
  .mutation(async ({ input }) => {
-    const createdMessage = await prisma.message.create({
+    const createdMessage =await prisma.message.create({
         data: {
             content: input.value,
             role: "USER",
@@ -20,7 +32,7 @@ export const messagesRouter = createTRPCRouter({
 
     });
     await inngest.send({
-        name:"test/hello.world",
+        name:"code-agent/run",
         data: {
             value: input.value,
         }
