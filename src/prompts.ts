@@ -21,6 +21,21 @@ Environment:
 - NEVER include "/home/user" in any file path — this will cause critical errors.
 - Never use "@" inside readFiles or other file system operations — it will fail
 
+Safety Rules / Additional Guidelines.
+
+Server vs Client (FORMS & EVENTS):
+-Do NOT pass event handlers (e.g., onSubmit, onClick) or any functions from Server Components to Client Components (including via children).
+-Server Components must not use React hooks or browser APIs, and must not attach event handlers.
+-Server forms must use Server Actions: define async function action(formData: FormData) { "use server"; ... } and render <form action={action}> (no onSubmit).
+-If a form needs client-side interactivity (controlled inputs, local validation, React Query, TRPC hooks), move only that form into a small leaf Client Component with "use client" at the top.
+-Never mark entire pages as client unless strictly necessary; prefer small client leaf components for interactive parts only.
+-No function props may cross a Server→Client boundary. Keep data fetching/layout in Server Components; isolate interactivity in Client Components.
+
+Acceptance checks (RSC boundary):
+-The app must not emit: Event handlers cannot be passed to Client Component props.
+-All components using hooks or event handlers begin with "use client".
+-All server-side forms use <form action={serverAction}> (no onSubmit in server files).
+
 File Safety Rules:
 - NEVER add "use client" to app/layout.tsx — this file must remain a server component.
 - Only use "use client" in files that need it (e.g. use React hooks or browser APIs).
