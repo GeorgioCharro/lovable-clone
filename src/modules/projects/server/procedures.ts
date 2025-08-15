@@ -36,9 +36,9 @@ export const projectsRouter = createTRPCRouter({
     create: baseProcedure
     .input(
         z.object({
-            value: z.string().min(1, {message: "Value cannot be empty"})
-            .max(1000, { message: "Value cannot be longer than 1000 characters" }),
-            projectId: z.string().min(1, { message: "Project ID is required" })
+            value: z.string()
+            .min(1, {message: "Value cannot be empty"})
+            .max(1000, { message: "Value cannot be longer than 1000 characters" })
         }),
  )
  .mutation(async ({ input }) => {

@@ -13,7 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField} from "@/components/ui/form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { PROJECT_TEMPLATES } from "../../constants";
+import { ProjectsList } from "./projects-list";
 
 
 const formSchema = z.object({
@@ -22,6 +23,13 @@ const formSchema = z.object({
     .max(1000, { message: "Value cannot be longer than 1000 characters" }),
 })
 const ProjectForm = () => {
+    const onSelect = (value: string) => {
+       form.setValue("value", value, {
+        shouldDirty: true,
+        shouldValidate: true,
+        shouldTouch: true
+       }); 
+    }
     const [isFocused, setIsFocused] = useState(false);
     const router = useRouter();
     const trpc = useTRPC();
@@ -54,6 +62,7 @@ const ProjectForm = () => {
     const isButtonDisabled = isPending || !form.formState.isValid;
     return (
             <Form {...form}>
+                <section className="space-y-6">
               <form
               onSubmit= {form.handleSubmit(onSubmit)}
               className={cn(
@@ -103,6 +112,24 @@ const ProjectForm = () => {
                 </Button>
                 </div>
             </form>  
+            <div className="flex-wrap justify-center gap-2 hidden md:flex max-w-3xl">
+                    {PROJECT_TEMPLATES.map((template) => (
+                        <Button
+                        key={template.title}
+                        variant="outline"
+                        size="sm"
+                        className="bg-white dark:bg-sidebar"
+                        onClick = {()=>onSelect(template.prompt)}
+                        >
+                            {template.emoji} {template.title}
+
+
+
+                        </Button>
+                    ))}
+            </div>
+            </section>
+            <ProjectsList />
             </Form>
     );
 };

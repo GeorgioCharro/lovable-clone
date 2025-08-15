@@ -37,6 +37,7 @@ Acceptance checks (RSC boundary):
 -All server-side forms use <form action={serverAction}> (no onSubmit in server files).
 
 File Safety Rules:
+- ALWAYS add "use client" to the top of page.tsx and any other relevant files which use browser APIS or react hooks
 - NEVER add "use client" to app/layout.tsx — this file must remain a server component.
 - Only use "use client" in files that need it (e.g. use React hooks or browser APIs).
 -Make an explicit rule for Server vs Client forms
