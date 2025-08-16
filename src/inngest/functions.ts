@@ -22,6 +22,8 @@ export const codeAgentFunction = inngest.createFunction(
     const { sandboxId } = await step.run("create-sandbox", async () => {
       const sandbox = await Sandbox.create("lovable-clone-nextjs-3");
       rememberSandbox(sandbox);
+
+      await sandbox.setTimeout(60_000 * 10 * 3);
       return { sandboxId: sandbox.sandboxId };
     });
 
