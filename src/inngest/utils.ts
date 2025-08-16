@@ -1,5 +1,5 @@
 import { Sandbox } from "@e2b/code-interpreter";
-import type { AgentResult, TextMessage } from "@inngest/agent-kit";
+import type { AgentResult, Message, TextMessage } from "@inngest/agent-kit";
 
 // Simple per-process cache
 const SANDBOX_CACHE = new Map<string, Sandbox>();
@@ -21,7 +21,6 @@ export async function getSandbox(sandboxId: string): Promise<Sandbox> {
     sb = await Sandbox.connect({ sandboxId });
   } catch {
     // Older SDKs: connect(sandboxId)
-    // @ts-expect-error – alternate signature
     sb = await Sandbox.connect(sandboxId);
   }
 
@@ -56,3 +55,17 @@ export function lastAssistantTextMessageContent(result: AgentResult) {
     ? message.content
     : message.content.map((c) => c.text).join("");
 }
+
+
+export  const parseAgentOutput =  (value: Message[]) => {
+    const output = value[0];
+    if (output.type !== "text") {
+      return "Fragment";
+    }
+    if (Array.isArray(output.content)) {
+      return output.content.map( (txt) => txt ).join("");
+    } else {
+      return output.content;
+    }
+
+  }
