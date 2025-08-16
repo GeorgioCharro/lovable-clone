@@ -15,10 +15,9 @@ const Page = () => {
                     appearance={{
                         baseTheme: currentTheme === "dark" ? dark : undefined,
                         elements: {
-                          cardBox: "border! shadow-none! rounded-lg!"  
+                          cardBox: "!border !shadow-none !rounded-lg",
                         },
-                    }}
-                    />
+                    }}                    />
                 </div>
             </section>
         </div>

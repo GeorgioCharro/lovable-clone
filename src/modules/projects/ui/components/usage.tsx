@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { CrownIcon } from "lucide-react";
-import { formatDuration, interval, intervalToDuration } from "date-fns";
-
+import { formatDuration, intervalToDuration } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/nextjs";
 
