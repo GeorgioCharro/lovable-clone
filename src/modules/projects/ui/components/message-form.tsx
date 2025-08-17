@@ -47,7 +47,7 @@ const MessageForm = ({ projectId }: Props) => {
             );
         },
         onError: (error) => {
-            //TODO: Redirect to pricing page if specific error
+           
             toast.error(error.message);
 
             if (error.data?.code === "TOO_MANY_REQUESTS") {

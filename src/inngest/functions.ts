@@ -22,6 +22,8 @@ export const codeAgentFunction = inngest.createFunction(
     const { sandboxId } = await step.run("create-sandbox", async () => {
       const sandbox = await Sandbox.create("lovable-clone-nextjs-3");
       rememberSandbox(sandbox);
+
+      await sandbox.setTimeout(60_000 * 10 * 3);
       return { sandboxId: sandbox.sandboxId };
     });
 
@@ -35,6 +37,8 @@ export const codeAgentFunction = inngest.createFunction(
         orderBy: {
           createdAt: "desc", // TODO: Change to asc incase AI doesn;t understand what is the latest message
         },
+        
+        take: 5,
 
       });
 
@@ -46,7 +50,7 @@ export const codeAgentFunction = inngest.createFunction(
         });
       }
 
-      return formattedMessages;
+      return formattedMessages.reverse(); // Reverse to maintain chronological order
     });
 
     const state = createState<AgentState>({
