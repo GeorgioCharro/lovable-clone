@@ -37,6 +37,8 @@ export const codeAgentFunction = inngest.createFunction(
         orderBy: {
           createdAt: "desc", // TODO: Change to asc incase AI doesn;t understand what is the latest message
         },
+        
+        take: 5,
 
       });
 
@@ -48,7 +50,7 @@ export const codeAgentFunction = inngest.createFunction(
         });
       }
 
-      return formattedMessages;
+      return formattedMessages.reverse(); // Reverse to maintain chronological order
     });
 
     const state = createState<AgentState>({
