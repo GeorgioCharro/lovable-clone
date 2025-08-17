@@ -63,18 +63,6 @@ export const codeAgentFunction = inngest.createFunction(
     )
 
 
-    const generateResponse =  () => {
-    const output = responseOutput[0]
-    if (output.type !== "text") {
-      return "Here you go";
-    }
-    if (Array.isArray(output.content)) {
-      return output.content.map( (txt) => txt ).join("");
-    } else {
-      return output.content;
-    }
-
-  }
 
     // 2) Build the coding agent with tools that always (re)connect via getSandbox(...)
     const codeAgent = createAgent<AgentState>({

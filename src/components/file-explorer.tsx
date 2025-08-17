@@ -108,7 +108,7 @@ export const FileExplorer = ({
 
     const handleFileSelect = useCallback((filePath: string) => {
         setSelectedFile(filePath);
-    }, [files]);
+    }, []);
 
     const handleCopy = useCallback(() => {
         if (selectedFile) {
@@ -116,7 +116,7 @@ export const FileExplorer = ({
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         }
-    }, [selectedFile, files]);
+    }, [selectedFile]);
 
     return (
         <ResizablePanelGroup direction="horizontal">

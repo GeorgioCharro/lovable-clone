@@ -14,7 +14,6 @@ import { ProjectHeader } from "../components/project-header";
 import { FragmentWeb } from "../components/fragment-web";
 import { Code, Crown, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CodeView } from "@/components/code-view";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
