@@ -23,7 +23,6 @@
 [![Forks](https://img.shields.io/badge/Forks--blue?style=for-the-badge)](https://github.com/GeorgioCharro/lovable-clone/network/members)
 [![Stars](https://img.shields.io/badge/Stars--blue?style=for-the-badge)](https://github.com/GeorgioCharro/lovable-clone/stargazers)
 [![Issues](https://img.shields.io/badge/Issues--blue?style=for-the-badge)](https://github.com/GeorgioCharro/lovable-clone/issues)
-[![Unlicense License][license-shield]][license-url]
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555)](https://www.linkedin.com/in/georgio-charro-59280a1b2/)
 
 <!-- PROJECT LOGO -->
