@@ -7,6 +7,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronDown, ChevronLeft, SunMoon } from "lucide-react";
 import { useTRPC } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
+import type { ReactNode } from "react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -22,9 +23,10 @@ import {
 
 interface Props {
   projectId: string;
+  children?: ReactNode;
 }
 
-export const ProjectHeader = ({ projectId }: Props) => {
+export const ProjectHeader = ({ projectId, children }: Props) => {
   const trpc = useTRPC();
   const { data: project } = useSuspenseQuery(
     trpc.projects.getOne.queryOptions({ id: projectId })
@@ -33,7 +35,7 @@ export const ProjectHeader = ({ projectId }: Props) => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className="p-2 flex justify-between items-center border-b">
+    <header className="p-2 flex flex-wrap items-center gap-2 border-b w-full">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -83,6 +85,7 @@ export const ProjectHeader = ({ projectId }: Props) => {
           </DropdownMenuSub>
         </DropdownMenuContent>
       </DropdownMenu>
+      {children}
     </header>
   );
 };

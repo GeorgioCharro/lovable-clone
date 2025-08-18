@@ -18,6 +18,7 @@ import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
 import { ErrorBoundary } from "react-error-boundary";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Props {
   projectId: string;
@@ -28,24 +29,92 @@ export const ProjectView = ({ projectId }: Props) => {
   const hasProAccess = has?.({ plan: "pro" });
   const [activeFragment, setActiveFragment] = useState<Fragment | null>(null);
   const [tabState, setTabState] = useState<"preview" | "code">("preview");
-
+  const isMobile = useIsMobile();
+  if (isMobile) {
+    return (
+      <Tabs
+        className="flex flex-col h-screen"
+        defaultValue="preview"
+        value={tabState}
+        onValueChange={(v) => setTabState(v as "preview" | "code")}
+      >
+        <ErrorBoundary fallback={<p>Project Header Error</p>}>
+          <Suspense fallback={<p className="p-2">Loading project…</p>}>
+            <ProjectHeader projectId={projectId}>
+              <div className="order-1 ml-auto flex items-center gap-2">
+                {!hasProAccess && (
+                  <Button asChild size="sm" variant="tertiary" className="gap-2">
+                    <Link href="/pricing">
+                      <Crown /> Upgrade
+                    </Link>
+                  </Button>
+                )}
+                <UserControl />
+              </div>
+              <TabsList className="order-2 basis-full flex items-center justify-center gap-1 rounded-md border bg-muted/50 p-1">
+                <TabsTrigger
+                  value="preview"
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-colors"
+                >
+                  <Eye className="h-4 w-4" />
+                  <span>Demo</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="code"
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-colors"
+                >
+                  <Code className="h-4 w-4" />
+                  <span>Code</span>
+                </TabsTrigger>
+              </TabsList>
+            </ProjectHeader>
+          </Suspense>
+        </ErrorBoundary>
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <ErrorBoundary fallback={<p>Messages Container Error</p>}>
+            <Suspense fallback={<div className="p-2">Loading messages…</div>}>
+              <MessagesContainer
+                projectId={projectId}
+                activeFragment={activeFragment}
+                setActiveFragment={setActiveFragment}
+              />
+            </Suspense>
+          </ErrorBoundary>
+          <TabsContent value="preview" className="flex-1 overflow-auto border-t">
+            {activeFragment ? (
+              <FragmentWeb data={activeFragment} />
+            ) : (
+              <div className="h-full flex items-center justify-center text-muted-foreground">
+                Select a fragment to preview
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent value="code" className="flex-1 overflow-auto border-t">
+            {!!activeFragment?.files && (
+              <FileExplorer files={activeFragment.files as { [path: string]: string }} />
+            )}
+          </TabsContent>
+        </div>
+      </Tabs>
+    );
+  }
   return (
     <div className="h-screen">
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={35} className="flex flex-col min-h-0">
-          <ErrorBoundary fallback= {<p>Project Header Error</p>}>
-          <Suspense fallback={<p className="p-2">Loading project…</p>}>
-            <ProjectHeader projectId={projectId} />
-          </Suspense>
+          <ErrorBoundary fallback={<p>Project Header Error</p>}>
+            <Suspense fallback={<p className="p-2">Loading project…</p>}>
+              <ProjectHeader projectId={projectId} />
+            </Suspense>
           </ErrorBoundary>
           <ErrorBoundary fallback={<p>Messages Container Error</p>}>
-          <Suspense fallback={<div className="p-2">Loading messages…</div>}>
-            <MessagesContainer
-              projectId={projectId}
-              activeFragment={activeFragment}
-              setActiveFragment={setActiveFragment}
-            />
-          </Suspense>
+            <Suspense fallback={<div className="p-2">Loading messages…</div>}>
+              <MessagesContainer
+                projectId={projectId}
+                activeFragment={activeFragment}
+                setActiveFragment={setActiveFragment}
+              />
+            </Suspense>
           </ErrorBoundary>
         </ResizablePanel>
 
@@ -63,10 +132,7 @@ export const ProjectView = ({ projectId }: Props) => {
               <TabsList className="flex items-center gap-1 rounded-md border bg-muted/50 p-1">
                 <TabsTrigger
                   value="preview"
-                  className="inline-flex items-center gap-2 rounded-md px-3 py-1.5
-                             text-muted-foreground
-                             data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm
-                             transition-colors"
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-colors"
                 >
                   <Eye className="h-4 w-4" />
                   <span>Demo</span>
@@ -74,10 +140,7 @@ export const ProjectView = ({ projectId }: Props) => {
 
                 <TabsTrigger
                   value="code"
-                  className="inline-flex items-center gap-2 rounded-md px-3 py-1.5
-                             text-muted-foreground
-                             data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm
-                             transition-colors"
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-colors"
                 >
                   <Code className="h-4 w-4" />
                   <span>Code</span>
@@ -85,11 +148,13 @@ export const ProjectView = ({ projectId }: Props) => {
               </TabsList>
 
               <div className="ml-auto flex items-center gap-x-2">
-                {!hasProAccess && (<Button asChild size="sm" variant="tertiary" className="gap-2">
-                  <Link href="/pricing">
-                    <Crown /> Upgrade
-                  </Link>
-                </Button>) }
+                {!hasProAccess && (
+                  <Button asChild size="sm" variant="tertiary" className="gap-2">
+                    <Link href="/pricing">
+                      <Crown /> Upgrade
+                    </Link>
+                  </Button>
+                )}
                 <UserControl />
               </div>
             </div>
@@ -106,7 +171,7 @@ export const ProjectView = ({ projectId }: Props) => {
 
             <TabsContent value="code" className="min-h-0">
               {!!activeFragment?.files && (
-                <FileExplorer files={activeFragment.files as {[path: string]: string}} />
+                <FileExplorer files={activeFragment.files as { [path: string]: string }} />
               )}
             </TabsContent>
           </Tabs>
