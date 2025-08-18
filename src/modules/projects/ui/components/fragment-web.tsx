@@ -25,19 +25,19 @@ export function FragmentWeb({ data }: Props) {
     };
     return (
         <div className="flex flex-col w-full h-full">
-            <div className="p-2 border-b bg-sidebar flex items-center gap-x-2">
+            <div className="p-2 border-b bg-sidebar flex items-center gap-x-2 w-full overflow-hidden">
                 <Hint text="Click to refresh" side="bottom" align="start">
                     <Button size="sm" variant="outline" onClick={onRefresh}>
                         <RefreshCcwIcon />
                     </Button>
                 </Hint>
                 <Hint text="Click to copy" side="bottom">
-                <Button 
-                size="sm" 
-                variant="outline" 
+                <Button
+                size="sm"
+                variant="outline"
                 onClick={handleCopy}
                 disabled= {!data.sandboxUrl || copied}
-                className="flex-1 justify-start text-start font-normal "
+                className="flex-1 min-w-0 justify-start text-start font-normal overflow-hidden"
                 >
                     <span className="truncate">
                         {data.sandboxUrl}
